@@ -66,42 +66,7 @@ export const creditCardOffers = sqliteTable(
   ],
 );
 
-export const offerSources = sqliteTable(
-  "offer_sources",
-  {
-    id: integer("id").primaryKey({ autoIncrement: true }),
-    issuer: text("issuer").notNull(),
-    sourceUrl: text("source_url").notNull(),
-    sourceBasis: text("source_basis").notNull(),
-    retrieved: text("retrieved").notNull(),
-    notes: text("notes"),
-    createdAt: text("created_at").notNull().default(sql`CURRENT_TIMESTAMP`),
-    updatedAt: text("updated_at").notNull().default(sql`CURRENT_TIMESTAMP`),
-  },
-  (table) => [
-    uniqueIndex("offer_sources_issuer_url_unique").on(table.issuer, table.sourceUrl),
-    index("offer_sources_retrieved_idx").on(table.retrieved),
-  ],
-);
-
-export const scopeNotes = sqliteTable(
-  "scope_notes",
-  {
-    id: integer("id").primaryKey({ autoIncrement: true }),
-    topic: text("topic").notNull(),
-    note: text("note").notNull(),
-    source: text("source"),
-    createdAt: text("created_at").notNull().default(sql`CURRENT_TIMESTAMP`),
-    updatedAt: text("updated_at").notNull().default(sql`CURRENT_TIMESTAMP`),
-  },
-  (table) => [index("scope_notes_topic_idx").on(table.topic)],
-);
-
 export type InstitutionTarget = typeof institutionTargets.$inferSelect;
 export type NewInstitutionTarget = typeof institutionTargets.$inferInsert;
 export type CreditCardOffer = typeof creditCardOffers.$inferSelect;
 export type NewCreditCardOffer = typeof creditCardOffers.$inferInsert;
-export type OfferSource = typeof offerSources.$inferSelect;
-export type NewOfferSource = typeof offerSources.$inferInsert;
-export type ScopeNote = typeof scopeNotes.$inferSelect;
-export type NewScopeNote = typeof scopeNotes.$inferInsert;

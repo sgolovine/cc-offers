@@ -1,0 +1,4 @@
+interface:
+  display_name: "Credit Card Institution Targets"
+  short_description: "Maintain rewards card institution targets"
+  default_prompt: "Use $credit-card-institution-target-research to refresh institution targets for rewards credit card offer research."

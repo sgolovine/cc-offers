@@ -6,8 +6,6 @@
   "scripts": {
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
-    "db:import:institutions": "tsx scripts/import-institution-targets.ts",
-    "db:seed": "npm run db:migrate && npm run db:import:institutions",
     "db:studio": "drizzle-kit studio",
     "typecheck": "tsc --noEmit",
     "test": "echo \"Error: no test specified\" && exit 1"

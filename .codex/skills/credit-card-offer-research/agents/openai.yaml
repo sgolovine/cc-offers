@@ -1,4 +1,4 @@
 interface:
   display_name: "Credit Card Offer Research"
-  short_description: "Audit issuer card offers in spreadsheets"
-  default_prompt: "Use $credit-card-offer-research to research current issuer credit card offers and save an audited spreadsheet."
+  short_description: "Research card offers into SQLite"
+  default_prompt: "Use $credit-card-offer-research to read institution targets from data/cc-offers.sqlite, research current public credit card offers, and save source-backed rows to credit_card_offers."
