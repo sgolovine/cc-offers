@@ -1,0 +1,1 @@
+ALTER TABLE `credit_card_offers` ADD `issuer_partner` text;

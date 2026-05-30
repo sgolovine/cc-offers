@@ -7,11 +7,6 @@
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:studio": "drizzle-kit studio",
-    "offers:remaining:dry-run": "tsx scripts/prepare-remaining-offers.ts",
-    "offers:remaining:status": "tsx scripts/prepare-remaining-offers.ts --summary",
-    "offers:remaining:audit": "tsx scripts/prepare-remaining-offers.ts --require-live-complete",
-    "offers:remaining:insert": "tsx scripts/prepare-remaining-offers.ts --execute",
-    "offers:remaining:prove": "tsx scripts/prove-remaining-offers.ts",
     "typecheck": "tsc --noEmit",
     "test": "npm run typecheck && npm run offers:remaining:prove"
   },
