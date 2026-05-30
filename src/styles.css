@@ -3,65 +3,237 @@
 }
 
 html {
-  color: #202426;
+  color: #17211d;
   font-family:
     Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
     sans-serif;
-  background: #f8f5ef;
+  background: #f6f7f4;
 }
 
 body {
   margin: 0;
 }
 
-button {
+button,
+input,
+select {
   font: inherit;
 }
 
-.shell {
+.app-shell {
+  width: min(1180px, 100%);
   min-height: 100vh;
-  display: grid;
-  place-content: center;
-  gap: 24px;
-  padding: 32px;
+  margin: 0 auto;
+  padding: 32px 20px 48px;
 }
 
-.intro {
-  max-width: 640px;
+.workspace-header {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 20px 0 28px;
 }
 
 .eyebrow {
-  margin: 0 0 10px;
-  color: #536d5f;
-  font-size: 0.8rem;
+  margin: 0 0 8px;
+  color: #526d60;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+h1,
+h2,
+p {
+  margin: 0;
+}
+
+h1 {
+  max-width: 760px;
+  font-size: clamp(2rem, 7vw, 4rem);
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+h2 {
+  font-size: 1.15rem;
+}
+
+.sync-status {
+  display: grid;
+  gap: 4px;
+  min-width: 220px;
+  color: #52605b;
+  font-size: 0.9rem;
+  text-align: right;
+}
+
+.sync-status span {
+  color: #176a55;
+  font-weight: 800;
+}
+
+.status-panel {
+  padding: 20px;
+  color: #3f4d48;
+  background: #fff;
+  border: 1px solid #dfe6df;
+  border-radius: 8px;
+}
+
+.status-panel.error {
+  color: #8a1f11;
+  border-color: #e6b9b1;
+  background: #fff4f1;
+}
+
+.metric-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.metric {
+  display: grid;
+  gap: 10px;
+  min-height: 104px;
+  padding: 18px;
+  background: #fff;
+  border: 1px solid #dfe6df;
+  border-radius: 8px;
+}
+
+.metric span {
+  color: #53605b;
+  font-size: 0.82rem;
   font-weight: 700;
   text-transform: uppercase;
 }
 
-h1 {
-  margin: 0 0 16px;
-  font-size: clamp(2.5rem, 8vw, 5rem);
-  line-height: 0.95;
+.metric strong {
+  align-self: end;
+  font-size: 2rem;
+  line-height: 1;
 }
 
-.intro p:last-child {
-  margin: 0;
-  color: #4c5552;
-  font-size: 1.1rem;
-  line-height: 1.6;
+.toolbar {
+  display: grid;
+  grid-template-columns: minmax(220px, 320px) minmax(260px, 1fr);
+  gap: 12px;
+  margin-bottom: 28px;
 }
 
-.counter {
-  width: fit-content;
-  min-height: 48px;
-  padding: 0 18px;
-  color: #fff;
-  background: #1f6f78;
-  border: 0;
+.toolbar label {
+  display: grid;
+  gap: 6px;
+  color: #53605b;
+  font-size: 0.82rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.toolbar select,
+.toolbar input {
+  width: 100%;
+  min-height: 44px;
+  padding: 0 12px;
+  color: #17211d;
+  background: #fff;
+  border: 1px solid #ccd8cf;
   border-radius: 8px;
-  cursor: pointer;
 }
 
-.counter:hover {
-  background: #185961;
+.data-section {
+  display: grid;
+  gap: 12px;
+}
+
+.section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.section-heading p {
+  color: #5b6662;
+  font-size: 0.92rem;
+}
+
+.table-wrap {
+  overflow-x: auto;
+  background: #fff;
+  border: 1px solid #dfe6df;
+  border-radius: 8px;
+}
+
+table {
+  width: 100%;
+  min-width: 900px;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 12px 14px;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid #edf1ec;
+}
+
+th {
+  color: #5f6e68;
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  background: #f9faf7;
+}
+
+td {
+  color: #28332f;
+  font-size: 0.92rem;
+  line-height: 1.4;
+}
+
+td:first-child {
+  min-width: 190px;
+}
+
+td strong,
+td span {
+  display: block;
+}
+
+td span {
+  margin-top: 4px;
+  color: #66736e;
+  font-size: 0.82rem;
+}
+
+tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+@media (max-width: 760px) {
+  .app-shell {
+    padding: 18px 14px 32px;
+  }
+
+  .workspace-header {
+    display: grid;
+    align-items: start;
+  }
+
+  .sync-status {
+    min-width: 0;
+    text-align: left;
+  }
+
+  .metric-grid,
+  .toolbar {
+    grid-template-columns: 1fr;
+  }
 }
