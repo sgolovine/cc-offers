@@ -8,7 +8,8 @@ import {
 } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 
-import appCss from "../styles.css?url";
+import compactCss from "../styles/compact.css?url";
+import picoCss from "../styles/pico.min.css?url";
 
 export const Route = createRootRoute({
   head: () => ({
@@ -20,7 +21,10 @@ export const Route = createRootRoute({
       },
       { title: "CC Offers" },
     ],
-    links: [{ rel: "stylesheet", href: appCss }],
+    links: [
+      { rel: "stylesheet", href: picoCss },
+      { rel: "stylesheet", href: compactCss },
+    ],
   }),
   component: RootComponent,
 });
