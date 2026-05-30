@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "dev": "vite dev",
+    "build": "vite build",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:studio": "drizzle-kit studio",
@@ -13,7 +15,7 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
+  "type": "module",
   "devDependencies": {
     "@types/node": "^25.9.1",
     "@types/react": "^19.2.15",
@@ -29,6 +31,7 @@
     "@tanstack/react-router": "^1.170.7",
     "@tanstack/react-start": "^1.168.10",
     "@tanstack/react-table": "^8.21.3",
+    "dexie": "^4.4.2",
     "drizzle-orm": "^0.45.2",
     "react": "^19.2.6",
     "react-dom": "^19.2.6"

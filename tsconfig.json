@@ -1,8 +1,9 @@
 {
   "compilerOptions": {
+    "jsx": "react-jsx",
     "target": "ES2022",
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
     "strict": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
@@ -12,5 +13,5 @@
     "rootDir": ".",
     "outDir": "dist"
   },
-  "include": ["drizzle.config.ts", "scripts/**/*.ts", "src/**/*.ts"]
+  "include": ["drizzle.config.ts", "scripts/**/*.ts", "src/**/*.ts", "src/**/*.tsx"]
 }
