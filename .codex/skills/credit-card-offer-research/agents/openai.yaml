@@ -1,0 +1,4 @@
+interface:
+  display_name: "Credit Card Offer Research"
+  short_description: "Audit issuer card offers in spreadsheets"
+  default_prompt: "Use $credit-card-offer-research to research current issuer credit card offers and save an audited spreadsheet."
