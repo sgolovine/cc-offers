@@ -10,9 +10,9 @@ import {
   formatOfferValue,
 } from "../data/credit-card-offer-fields";
 
-export const FUZZY_SCORE_THRESHOLD = 0.3;
+const FUZZY_SCORE_THRESHOLD = 0.3;
 
-export function fuzzyMatches(search: string, value: unknown): boolean {
+function fuzzyMatches(search: string, value: unknown): boolean {
   const result = fuzzysort.single(search, formatOfferValue(value));
 
   return result !== null && result.score >= FUZZY_SCORE_THRESHOLD;

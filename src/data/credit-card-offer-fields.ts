@@ -7,7 +7,7 @@ export interface CreditCardOfferField {
   label: string;
 }
 
-export const EMPTY_OFFER_VALUE = "Not provided";
+const EMPTY_OFFER_VALUE = "Not provided";
 
 export const CREDIT_CARD_OFFER_FIELDS = [
   { key: "id", label: "ID" },

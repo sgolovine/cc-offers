@@ -32,7 +32,7 @@ export function Home() {
       />
 
       {offersState.isLoading ? (
-        <p aria-busy="true">Loading offers...</p>
+        <p aria-busy="true">Loading offers&hellip;</p>
       ) : (
         <OfferTable
           table={table}

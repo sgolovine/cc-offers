@@ -40,7 +40,7 @@ export interface CreditCardOfferSeed {
   cash_bonus_type: string | null;
 }
 
-export const CREDIT_CARD_OFFERS_SEED = [
+const CREDIT_CARD_OFFERS_SEED = [
   {
     "id": 1,
     "issuer": "JPMorgan Chase",

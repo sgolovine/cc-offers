@@ -2,7 +2,11 @@ import { Link } from "@tanstack/react-router";
 
 import {
   CREDIT_CARD_OFFER_FIELDS,
+  type CreditCardOfferFieldKey,
+  formatOfferValue,
+  formatRawJson,
 } from "../../data/credit-card-offer-fields";
+import type { CreditCardOfferSeed } from "../../data/credit-card-offers.seed";
 import { useOfferDetails } from "./use-offer-details";
 
 type OfferDetailsProps = {
@@ -10,8 +14,7 @@ type OfferDetailsProps = {
 };
 
 export function OfferDetails({ offerId }: OfferDetailsProps) {
-  const { offer, offerState, renderOfferField, status } =
-    useOfferDetails(offerId);
+  const { offer, offerState, status } = useOfferDetails(offerId);
 
   if (status === "error") {
     return (
@@ -35,7 +38,7 @@ export function OfferDetails({ offerId }: OfferDetailsProps) {
   if (status === "loading") {
     return (
       <main className="container-fluid">
-        <p aria-busy="true">Loading offer...</p>
+        <p aria-busy="true">Loading offer&hellip;</p>
       </main>
     );
   }
@@ -101,7 +104,9 @@ export function OfferDetails({ offerId }: OfferDetailsProps) {
               {CREDIT_CARD_OFFER_FIELDS.map((field) => (
                 <tr key={field.key}>
                   <th scope="row">{field.label}</th>
-                  <td>{renderOfferField(offer, field.key)}</td>
+                  <td>
+                    <OfferFieldValue offer={offer} fieldKey={field.key} />
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -110,4 +115,31 @@ export function OfferDetails({ offerId }: OfferDetailsProps) {
       </article>
     </main>
   );
+}
+
+type OfferFieldValueProps = {
+  offer: CreditCardOfferSeed;
+  fieldKey: CreditCardOfferFieldKey;
+};
+
+function OfferFieldValue({ offer, fieldKey }: OfferFieldValueProps) {
+  const value = offer[fieldKey];
+
+  if (fieldKey === "source_url" && typeof value === "string") {
+    return (
+      <a href={value} target="_blank" rel="noreferrer">
+        {value}
+      </a>
+    );
+  }
+
+  if (fieldKey === "raw_json") {
+    return (
+      <pre>
+        <code>{formatRawJson(typeof value === "string" ? value : null)}</code>
+      </pre>
+    );
+  }
+
+  return formatOfferValue(value);
 }

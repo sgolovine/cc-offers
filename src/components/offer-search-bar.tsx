@@ -15,6 +15,7 @@ export function OfferSearchBar({
       <input
         id="offer-search"
         type="search"
+        aria-label="Search offers"
         value={globalFilter}
         onChange={(event: ChangeEvent<HTMLInputElement>) =>
           onChange(event.target.value)
@@ -24,4 +25,3 @@ export function OfferSearchBar({
     </>
   );
 }
-

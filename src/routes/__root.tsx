@@ -1,15 +1,12 @@
 /// <reference types="vite/client" />
 
 import {
-  HeadContent,
-  Outlet,
-  Scripts,
   createRootRoute,
 } from "@tanstack/react-router";
-import type { ReactNode } from "react";
 
 import compactCss from "../styles/compact.css?url";
 import picoCss from "../styles/pico.min.css?url";
+import { RootComponent } from "./-root-component";
 
 export const Route = createRootRoute({
   head: () => ({
@@ -28,25 +25,3 @@ export const Route = createRootRoute({
   }),
   component: RootComponent,
 });
-
-function RootComponent() {
-  return (
-    <RootDocument>
-      <Outlet />
-    </RootDocument>
-  );
-}
-
-function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
-  return (
-    <html lang="en">
-      <head>
-        <HeadContent />
-      </head>
-      <body>
-        {children}
-        <Scripts />
-      </body>
-    </html>
-  );
-}
