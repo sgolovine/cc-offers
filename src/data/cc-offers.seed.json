@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "sourceDatabase": "file:./data/cc-offers.sqlite",
   "sourceModifiedAt": "2026-05-30T15:48:01.366Z",
-  "exportedAt": "2026-05-30T16:16:19.579Z",
+  "exportedAt": "2026-05-30T16:33:34.390Z",
   "tables": {
     "institution_targets": [
       {

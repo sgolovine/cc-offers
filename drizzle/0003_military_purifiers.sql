@@ -1,1 +1,0 @@
-ALTER TABLE `credit_card_offers` ADD `bonus_miles_type` text;

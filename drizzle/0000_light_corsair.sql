@@ -8,9 +8,11 @@ CREATE TABLE `credit_card_offers` (
 	`bonus_miles` text,
 	`cash_bonus` text,
 	`spend_requirement` text,
-	`spend_timeframe` text,
+	`spend_timeframe_days_tier_1` text,
 	`spend_requirement_timing` text,
-	`annual_fee` text,
+	`base_annual_fee_usd` integer,
+	`additional_user_annual_fee_usd` integer,
+	`additional_requirements_annual_fee` text,
 	`intro_apr` text,
 	`regular_apr` text,
 	`rewards_key_perks` text,
@@ -20,7 +22,12 @@ CREATE TABLE `credit_card_offers` (
 	`notes` text,
 	`raw_json` text,
 	`created_at` text DEFAULT CURRENT_TIMESTAMP NOT NULL,
-	`updated_at` text DEFAULT CURRENT_TIMESTAMP NOT NULL
+	`updated_at` text DEFAULT CURRENT_TIMESTAMP NOT NULL,
+	`issuer_partner` text,
+	`spend_requirement_extra_reqs` text,
+	`bonus_miles_type` text,
+	`spend_timeframe_days_tier_2` text,
+	`cash_bonus_type` text
 );
 --> statement-breakpoint
 CREATE INDEX `credit_card_offers_issuer_idx` ON `credit_card_offers` (`issuer`);--> statement-breakpoint
@@ -47,27 +54,4 @@ CREATE TABLE `institution_targets` (
 --> statement-breakpoint
 CREATE UNIQUE INDEX `institution_targets_institution_url_unique` ON `institution_targets` (`institution`,`offer_research_url`);--> statement-breakpoint
 CREATE INDEX `institution_targets_type_idx` ON `institution_targets` (`institution_type`);--> statement-breakpoint
-CREATE INDEX `institution_targets_priority_idx` ON `institution_targets` (`priority`);--> statement-breakpoint
-CREATE TABLE `offer_sources` (
-	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
-	`issuer` text NOT NULL,
-	`source_url` text NOT NULL,
-	`source_basis` text NOT NULL,
-	`retrieved` text NOT NULL,
-	`notes` text,
-	`created_at` text DEFAULT CURRENT_TIMESTAMP NOT NULL,
-	`updated_at` text DEFAULT CURRENT_TIMESTAMP NOT NULL
-);
---> statement-breakpoint
-CREATE UNIQUE INDEX `offer_sources_issuer_url_unique` ON `offer_sources` (`issuer`,`source_url`);--> statement-breakpoint
-CREATE INDEX `offer_sources_retrieved_idx` ON `offer_sources` (`retrieved`);--> statement-breakpoint
-CREATE TABLE `scope_notes` (
-	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
-	`topic` text NOT NULL,
-	`note` text NOT NULL,
-	`source` text,
-	`created_at` text DEFAULT CURRENT_TIMESTAMP NOT NULL,
-	`updated_at` text DEFAULT CURRENT_TIMESTAMP NOT NULL
-);
---> statement-breakpoint
-CREATE INDEX `scope_notes_topic_idx` ON `scope_notes` (`topic`);
+CREATE INDEX `institution_targets_priority_idx` ON `institution_targets` (`priority`);

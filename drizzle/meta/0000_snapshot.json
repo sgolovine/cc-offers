@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "856d87f2-a0cd-41c6-b843-35aac559f8ea",
+  "id": "8fe43af8-061c-44d7-9a3f-539f32f48497",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "credit_card_offers": {
@@ -70,8 +70,8 @@
           "notNull": false,
           "autoincrement": false
         },
-        "spend_timeframe": {
-          "name": "spend_timeframe",
+        "spend_timeframe_days_tier_1": {
+          "name": "spend_timeframe_days_tier_1",
           "type": "text",
           "primaryKey": false,
           "notNull": false,
@@ -84,8 +84,22 @@
           "notNull": false,
           "autoincrement": false
         },
-        "annual_fee": {
-          "name": "annual_fee",
+        "base_annual_fee_usd": {
+          "name": "base_annual_fee_usd",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "additional_user_annual_fee_usd": {
+          "name": "additional_user_annual_fee_usd",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "additional_requirements_annual_fee": {
+          "name": "additional_requirements_annual_fee",
           "type": "text",
           "primaryKey": false,
           "notNull": false,
@@ -162,6 +176,41 @@
           "notNull": true,
           "autoincrement": false,
           "default": "CURRENT_TIMESTAMP"
+        },
+        "issuer_partner": {
+          "name": "issuer_partner",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "spend_requirement_extra_reqs": {
+          "name": "spend_requirement_extra_reqs",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "bonus_miles_type": {
+          "name": "bonus_miles_type",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "spend_timeframe_days_tier_2": {
+          "name": "spend_timeframe_days_tier_2",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "cash_bonus_type": {
+          "name": "cash_bonus_type",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
         }
       },
       "indexes": {
@@ -330,152 +379,6 @@
           "name": "institution_targets_priority_idx",
           "columns": [
             "priority"
-          ],
-          "isUnique": false
-        }
-      },
-      "foreignKeys": {},
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "checkConstraints": {}
-    },
-    "offer_sources": {
-      "name": "offer_sources",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "integer",
-          "primaryKey": true,
-          "notNull": true,
-          "autoincrement": true
-        },
-        "issuer": {
-          "name": "issuer",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "source_url": {
-          "name": "source_url",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "source_basis": {
-          "name": "source_basis",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "retrieved": {
-          "name": "retrieved",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "notes": {
-          "name": "notes",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": "CURRENT_TIMESTAMP"
-        },
-        "updated_at": {
-          "name": "updated_at",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": "CURRENT_TIMESTAMP"
-        }
-      },
-      "indexes": {
-        "offer_sources_issuer_url_unique": {
-          "name": "offer_sources_issuer_url_unique",
-          "columns": [
-            "issuer",
-            "source_url"
-          ],
-          "isUnique": true
-        },
-        "offer_sources_retrieved_idx": {
-          "name": "offer_sources_retrieved_idx",
-          "columns": [
-            "retrieved"
-          ],
-          "isUnique": false
-        }
-      },
-      "foreignKeys": {},
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "checkConstraints": {}
-    },
-    "scope_notes": {
-      "name": "scope_notes",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "integer",
-          "primaryKey": true,
-          "notNull": true,
-          "autoincrement": true
-        },
-        "topic": {
-          "name": "topic",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "note": {
-          "name": "note",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "source": {
-          "name": "source",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": "CURRENT_TIMESTAMP"
-        },
-        "updated_at": {
-          "name": "updated_at",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": "CURRENT_TIMESTAMP"
-        }
-      },
-      "indexes": {
-        "scope_notes_topic_idx": {
-          "name": "scope_notes_topic_idx",
-          "columns": [
-            "topic"
           ],
           "isUnique": false
         }
