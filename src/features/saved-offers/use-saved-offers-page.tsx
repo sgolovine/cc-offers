@@ -25,6 +25,7 @@ import type { CreditCardOfferSeed } from "../../data/credit-card-offers.seed";
 import { useDexieQuery } from "../../hooks/use-dexie-query";
 import { useLocalStorageState } from "../../hooks/use-local-storage-state";
 import { useSavedOffers } from "../../hooks/use-saved-offers";
+import { formatDatasetLastUpdated } from "../../util/dataset";
 import {
   exactFormattedColumnFilter,
   fuzzyGlobalFilter,
@@ -32,7 +33,6 @@ import {
   openOffer,
   offerValueSort,
 } from "../../util/offer-table";
-import { formatDatasetLastUpdated } from "../../util/dataset";
 
 const HIDDEN_TABLE_FIELD_KEYS = new Set<CreditCardOfferFieldKey>([
   "retrieved",
@@ -41,10 +41,10 @@ const HIDDEN_TABLE_FIELD_KEYS = new Set<CreditCardOfferFieldKey>([
   "updated_at",
 ]);
 
-const COLUMN_VISIBILITY_STORAGE_KEY = "cc-offers:home:column-visibility";
+const COLUMN_VISIBILITY_STORAGE_KEY = "cc-offers:saved:column-visibility";
 
-export function useHome() {
-  const navigate = useNavigate({ from: "/" });
+export function useSavedOffersPage() {
+  const navigate = useNavigate({ from: "/saved-offers" });
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] =
@@ -54,11 +54,23 @@ export function useHome() {
     );
   const [globalFilter, setGlobalFilter] = useState("");
   const deferredGlobalFilter = useDeferredValue(globalFilter);
-  const { savedOfferIdSet, toggleSavedOffer } = useSavedOffers();
+  const { savedOfferIdSet, savedOfferIds, toggleSavedOffer } = useSavedOffers();
 
   const offersState = useDexieQuery(async (db) =>
     db.creditCardOffers.toArray(),
   );
+
+  const savedOffers = useMemo(() => {
+    const offersById = new Map(
+      (offersState.data ?? []).map((offer) => [offer.id, offer]),
+    );
+
+    return savedOfferIds.flatMap((offerId) => {
+      const offer = offersById.get(offerId);
+
+      return offer ? [offer] : [];
+    });
+  }, [offersState.data, savedOfferIds]);
 
   const columns = useMemo<ColumnDef<CreditCardOfferSeed>[]>(
     () => [
@@ -120,13 +132,8 @@ export function useHome() {
     [savedOfferIdSet, toggleSavedOffer],
   );
 
-  const datasetLastUpdated = useMemo(
-    () => formatDatasetLastUpdated(offersState.data),
-    [offersState.data],
-  );
-
   const table = useReactTable({
-    data: offersState.data ?? [],
+    data: savedOffers,
     columns,
     state: {
       sorting,
@@ -171,7 +178,7 @@ export function useHome() {
     onOpenOffer,
     onOfferKeyDown,
     visibleOffers: table.getFilteredRowModel().rows.length,
-    totalOffers: table.getCoreRowModel().rows.length,
-    datasetLastUpdated,
+    totalOffers: savedOffers.length,
+    datasetLastUpdated: formatDatasetLastUpdated(savedOffers),
   };
 }

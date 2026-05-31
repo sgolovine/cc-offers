@@ -2,12 +2,14 @@ import { Badge } from "@/components/ui/badge";
 import { HeaderActions } from "./site-header";
 
 interface OfferPageHeaderProps {
+  title?: string;
   datasetLastUpdated: string | null;
   visibleOffers: number;
   totalOffers: number;
 }
 
 export function OfferPageHeader({
+  title = "Credit Card Offers",
   datasetLastUpdated,
   visibleOffers,
   totalOffers,
@@ -17,7 +19,7 @@ export function OfferPageHeader({
       <div>
         <h1 className="flex items-center gap-2 text-2xl font-semibold tracking-normal">
           <span aria-hidden="true">💳</span>
-          <span>Credit Card Offers</span>
+          <span>{title}</span>
         </h1>
         <Badge variant="secondary" className="mt-2">
           {visibleOffers} of {totalOffers} offers

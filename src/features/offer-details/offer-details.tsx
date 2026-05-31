@@ -4,6 +4,7 @@ import { ArrowLeft, ExternalLink, LoaderCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
+  CardAction,
   CardContent,
   CardDescription,
   CardHeader,
@@ -16,21 +17,95 @@ import {
   TableHead,
   TableRow,
 } from "@/components/ui/table";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   CREDIT_CARD_OFFER_FIELDS,
+  type CreditCardOfferField,
   type CreditCardOfferFieldKey,
   formatOfferValue,
   formatRawJson,
 } from "../../data/credit-card-offer-fields";
 import type { CreditCardOfferSeed } from "../../data/credit-card-offers.seed";
+import { SaveOfferButton } from "../../components/save-offer-button";
+import { useSavedOffers } from "../../hooks/use-saved-offers";
 import { useOfferDetails } from "./use-offer-details";
 
 type OfferDetailsProps = {
   offerId: string;
 };
 
+type OfferDetailsTab = {
+  value: string;
+  label: string;
+  fields: readonly CreditCardOfferFieldKey[];
+};
+
+const OFFER_DETAIL_TABS = [
+  {
+    value: "overview",
+    label: "Overview",
+    fields: [
+      "id",
+      "issuer",
+      "card_offer",
+      "issuer_partner",
+      "segment",
+      "category",
+    ],
+  },
+  {
+    value: "offer",
+    label: "Offer",
+    fields: [
+      "welcome_intro_offer",
+      "bonus_miles",
+      "bonus_miles_type",
+      "cash_bonus",
+      "cash_bonus_type",
+      "spend_requirement",
+      "spend_requirement_extra_reqs",
+      "spend_timeframe_days_tier_1",
+      "spend_timeframe_days_tier_2",
+      "spend_requirement_timing",
+    ],
+  },
+  {
+    value: "rates-fees",
+    label: "Rates & Fees",
+    fields: [
+      "base_annual_fee_usd",
+      "additional_user_annual_fee_usd",
+      "additional_requirements_annual_fee",
+      "intro_apr",
+      "regular_apr",
+    ],
+  },
+  {
+    value: "rewards-notes",
+    label: "Rewards & Notes",
+    fields: ["rewards_key_perks", "notes"],
+  },
+  {
+    value: "source-data",
+    label: "Source Data",
+    fields: [
+      "source_url",
+      "source_basis",
+      "retrieved",
+      "raw_json",
+      "created_at",
+      "updated_at",
+    ],
+  },
+] as const satisfies readonly OfferDetailsTab[];
+
+const OFFER_FIELD_BY_KEY = new Map<CreditCardOfferFieldKey, CreditCardOfferField>(
+  CREDIT_CARD_OFFER_FIELDS.map((field) => [field.key, field]),
+);
+
 export function OfferDetails({ offerId }: OfferDetailsProps) {
   const { offer, offerState, status } = useOfferDetails(offerId);
+  const { isOfferSaved, toggleSavedOffer } = useSavedOffers();
 
   if (status === "error") {
     return (
@@ -89,29 +164,76 @@ export function OfferDetails({ offerId }: OfferDetailsProps) {
             {offer.card_offer}
           </CardTitle>
           <CardDescription>{offer.issuer}</CardDescription>
+          <CardAction>
+            <SaveOfferButton
+              offerName={offer.card_offer}
+              isSaved={isOfferSaved(offer.id)}
+              onToggle={() => toggleSavedOffer(offer.id)}
+            />
+          </CardAction>
         </CardHeader>
 
         <CardContent>
-          <Table>
-            <TableBody>
-              {CREDIT_CARD_OFFER_FIELDS.map((field) => (
-                <TableRow key={field.key}>
-                  <TableHead
-                    scope="row"
-                    className="w-56 whitespace-normal py-2 text-muted-foreground"
-                  >
-                    {field.label}
-                  </TableHead>
-                  <TableCell className="whitespace-normal py-2">
-                    <OfferFieldValue offer={offer} fieldKey={field.key} />
-                  </TableCell>
-                </TableRow>
+          <Tabs
+            defaultValue={OFFER_DETAIL_TABS[0].value}
+            className="gap-4"
+          >
+            <TabsList className="h-auto w-full overflow-x-auto rounded-md">
+              {OFFER_DETAIL_TABS.map((tab) => (
+                <TabsTrigger
+                  key={tab.value}
+                  value={tab.value}
+                  className="flex-1"
+                >
+                  {tab.label}
+                </TabsTrigger>
               ))}
-            </TableBody>
-          </Table>
+            </TabsList>
+
+            {OFFER_DETAIL_TABS.map((tab) => (
+              <TabsContent key={tab.value} value={tab.value}>
+                <OfferDetailsTable offer={offer} fieldKeys={tab.fields} />
+              </TabsContent>
+            ))}
+          </Tabs>
         </CardContent>
       </Card>
     </main>
+  );
+}
+
+type OfferDetailsTableProps = {
+  offer: CreditCardOfferSeed;
+  fieldKeys: readonly CreditCardOfferFieldKey[];
+};
+
+function OfferDetailsTable({ offer, fieldKeys }: OfferDetailsTableProps) {
+  return (
+    <Table>
+      <TableBody>
+        {fieldKeys.map((fieldKey) => {
+          const field = OFFER_FIELD_BY_KEY.get(fieldKey);
+
+          if (!field) {
+            return null;
+          }
+
+          return (
+            <TableRow key={field.key}>
+              <TableHead
+                scope="row"
+                className="w-56 whitespace-normal py-2 text-muted-foreground"
+              >
+                {field.label}
+              </TableHead>
+              <TableCell className="whitespace-normal py-2">
+                <OfferFieldValue offer={offer} fieldKey={field.key} />
+              </TableCell>
+            </TableRow>
+          );
+        })}
+      </TableBody>
+    </Table>
   );
 }
 

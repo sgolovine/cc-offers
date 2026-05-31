@@ -19,10 +19,13 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { cn } from "@/lib/utils";
 import type { CreditCardOfferSeed } from "../data/credit-card-offers.seed";
 
 interface OfferTableProps {
   table: Table<CreditCardOfferSeed>;
+  className?: string;
+  emptyMessage?: string;
   onOpenOffer: (offerId: number) => void;
   onOfferKeyDown: (
     event: KeyboardEvent<HTMLTableRowElement>,
@@ -32,11 +35,13 @@ interface OfferTableProps {
 
 export function OfferTable({
   table,
+  className,
+  emptyMessage = "No offers match the current filters.",
   onOpenOffer,
   onOfferKeyDown,
 }: OfferTableProps) {
   return (
-    <Card className="overflow-hidden py-0">
+    <Card className={cn("overflow-hidden py-0", className)}>
       <CardContent className="px-0">
         <DataTable className="text-xs">
           <TableHeader className="bg-muted/50 sticky top-0 z-10">
@@ -47,7 +52,7 @@ export function OfferTable({
 
                   return (
                     <TableHead key={header.id} scope="col" className="p-1">
-                      {header.isPlaceholder ? null : (
+                      {header.isPlaceholder ? null : header.column.getCanSort() ? (
                         <Button
                           type="button"
                           variant="ghost"
@@ -93,6 +98,13 @@ export function OfferTable({
                             ) : null}
                           </span>
                         </Button>
+                      ) : (
+                        <div className="flex h-7 w-full items-center px-2 text-left text-xs font-medium">
+                          {flexRender(
+                            header.column.columnDef.header,
+                            header.getContext(),
+                          )}
+                        </div>
                       )}
                     </TableHead>
                   );
@@ -126,7 +138,7 @@ export function OfferTable({
 
       {table.getRowModel().rows.length === 0 ? (
         <div className="border-t px-4 py-8 text-center text-sm text-muted-foreground">
-          No offers match the current filters.
+          {emptyMessage}
         </div>
       ) : null}
 

@@ -1,10 +1,17 @@
 import { HeadContent, Outlet, Scripts } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 
+import { SiteFooter } from "../components/site-footer";
+
 export function RootComponent() {
   return (
     <RootDocument>
-      <Outlet />
+      <div className="flex min-h-screen flex-col">
+        <div className="flex-1">
+          <Outlet />
+        </div>
+        <SiteFooter />
+      </div>
     </RootDocument>
   );
 }

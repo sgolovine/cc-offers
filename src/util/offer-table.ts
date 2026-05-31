@@ -7,15 +7,49 @@ import type {
 import type { CreditCardOfferSeed } from "../data/credit-card-offers.seed";
 import {
   CREDIT_CARD_OFFER_FIELDS,
+  type CreditCardOfferFieldKey,
   formatOfferValue,
 } from "../data/credit-card-offer-fields";
 
 const FUZZY_SCORE_THRESHOLD = 0.3;
+const GLOBAL_SEARCH_FIELD_KEYS = CREDIT_CARD_OFFER_FIELDS.map(
+  ({ key }) => key,
+).filter(
+  (key): key is CreditCardOfferFieldKey =>
+    key !== "raw_json" && key !== "created_at" && key !== "updated_at",
+);
+const globalSearchTextCache = new WeakMap<
+  CreditCardOfferSeed,
+  { text: string; normalizedText: string }
+>();
 
 function fuzzyMatches(search: string, value: unknown): boolean {
   const result = fuzzysort.single(search, formatOfferValue(value));
 
   return result !== null && result.score >= FUZZY_SCORE_THRESHOLD;
+}
+
+function getGlobalSearchText(offer: CreditCardOfferSeed): {
+  text: string;
+  normalizedText: string;
+} {
+  const cachedSearchText = globalSearchTextCache.get(offer);
+
+  if (cachedSearchText) {
+    return cachedSearchText;
+  }
+
+  const searchText = GLOBAL_SEARCH_FIELD_KEYS.map((key) =>
+    formatOfferValue(offer[key]),
+  ).join(" ");
+  const cachedSearchTextValue = {
+    text: searchText,
+    normalizedText: searchText.toLowerCase(),
+  };
+
+  globalSearchTextCache.set(offer, cachedSearchTextValue);
+
+  return cachedSearchTextValue;
 }
 
 export const fuzzyColumnFilter: FilterFn<CreditCardOfferSeed> = (
@@ -57,8 +91,12 @@ export const fuzzyGlobalFilter: FilterFn<CreditCardOfferSeed> = (
     return true;
   }
 
-  return CREDIT_CARD_OFFER_FIELDS.some(({ key }) =>
-    fuzzyMatches(search, row.original[key]),
+  const normalizedSearch = search.toLowerCase();
+  const searchText = getGlobalSearchText(row.original);
+
+  return (
+    searchText.normalizedText.includes(normalizedSearch) ||
+    fuzzyMatches(search, searchText.text)
   );
 };
 

@@ -1,10 +1,11 @@
 import { Link } from "@tanstack/react-router";
+import { Bookmark } from "lucide-react";
 import type { SimpleIcon } from "simple-icons";
 
 import { Button } from "@/components/ui/button";
 import { socialLinks } from "../config";
 
-function SimpleIcon({ icon }: Readonly<{ icon: SimpleIcon }>) {
+export function SimpleIcon({ icon }: Readonly<{ icon: SimpleIcon }>) {
   return (
     <svg
       aria-hidden="true"
@@ -21,6 +22,19 @@ export function HeaderActions() {
   return (
     <nav aria-label="Primary">
       <ul className="flex items-center gap-1">
+        <li>
+          <Button asChild variant="ghost" size="sm">
+            <Link to="/">Home</Link>
+          </Button>
+        </li>
+        <li>
+          <Button asChild variant="ghost" size="sm">
+            <Link to="/saved-offers">
+              <Bookmark className="size-4" aria-hidden="true" />
+              Saved Offers
+            </Link>
+          </Button>
+        </li>
         <li>
           <Button asChild variant="ghost" size="sm">
             <Link to="/about">About</Link>

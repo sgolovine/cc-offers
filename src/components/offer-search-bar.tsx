@@ -13,7 +13,7 @@ export function OfferSearchBar({
   onChange,
 }: OfferSearchBarProps) {
   return (
-    <div className="relative max-w-xl">
+    <div className="relative w-full max-w-xl">
       <label htmlFor="offer-search" className="sr-only">
         Search offers
       </label>
@@ -30,7 +30,7 @@ export function OfferSearchBar({
         onChange={(event: ChangeEvent<HTMLInputElement>) =>
           onChange(event.target.value)
         }
-        placeholder="Search across every field"
+        placeholder="Search offers"
       />
     </div>
   );

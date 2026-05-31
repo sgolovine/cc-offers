@@ -1,18 +1,13 @@
-import { OfferErrorView } from "../../components/offer-error-view";
+import { LoaderCircle } from "lucide-react";
+
 import { OfferColumnSelector } from "../../components/offer-column-selector";
+import { OfferErrorView } from "../../components/offer-error-view";
 import { OfferPageHeader } from "../../components/offer-page-header";
 import { OfferSearchBar } from "../../components/offer-search-bar";
 import { OfferTable } from "../../components/offer-table";
-import {
-  OfferViewSelector,
-  type OfferTableView,
-} from "../../components/offer-view-selector";
-import { useHome } from "./use-home";
-import { LoaderCircle } from "lucide-react";
-import { useState } from "react";
+import { useSavedOffersPage } from "./use-saved-offers-page";
 
-export function Home() {
-  const [tableView, setTableView] = useState<OfferTableView>("compact");
+export function SavedOffers() {
   const {
     datasetLastUpdated,
     globalFilter,
@@ -23,7 +18,7 @@ export function Home() {
     table,
     totalOffers,
     visibleOffers,
-  } = useHome();
+  } = useSavedOffersPage();
 
   if (offersState.error) {
     return <OfferErrorView message={offersState.error.message} />;
@@ -32,34 +27,31 @@ export function Home() {
   return (
     <main className="mx-auto flex w-full max-w-[1600px] flex-col gap-4 px-4 py-4 sm:px-6">
       <OfferPageHeader
+        title="Saved Offers"
         datasetLastUpdated={datasetLastUpdated}
         visibleOffers={visibleOffers}
         totalOffers={totalOffers}
       />
+
       <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
         <OfferSearchBar
           globalFilter={globalFilter}
           onChange={setGlobalFilter}
         />
         <div className="flex gap-2 sm:ml-auto">
-          <OfferViewSelector value={tableView} onValueChange={setTableView} />
           <OfferColumnSelector table={table} />
         </div>
       </div>
 
       {offersState.isLoading ? (
-        <div className="text-muted-foreground flex items-center gap-2 text-sm">
+        <div className="flex items-center gap-2 text-sm text-muted-foreground">
           <LoaderCircle className="size-4 animate-spin" aria-hidden="true" />
-          <span>Loading offers&hellip;</span>
+          <span>Loading saved offers&hellip;</span>
         </div>
       ) : (
         <OfferTable
           table={table}
-          className={
-            tableView === "expanded"
-              ? "relative left-1/2 w-[calc(100vw-2rem)] -translate-x-1/2 sm:w-[calc(100vw-3rem)]"
-              : undefined
-          }
+          emptyMessage="No saved offers yet."
           onOpenOffer={onOpenOffer}
           onOfferKeyDown={onOfferKeyDown}
         />
