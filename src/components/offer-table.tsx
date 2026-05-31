@@ -1,5 +1,5 @@
 import type { KeyboardEvent } from "react";
-import { flexRender, type Column, type Table } from "@tanstack/react-table";
+import { flexRender, type Table } from "@tanstack/react-table";
 import { ArrowDown, ArrowUp, ChevronsUpDown } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -19,27 +19,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { formatOfferValue } from "../data/credit-card-offer-fields";
 import type { CreditCardOfferSeed } from "../data/credit-card-offers.seed";
-
-const ALL_FILTER_VALUE = "__all_column_values__";
-
-function getColumnFilterOptions(
-  column: Column<CreditCardOfferSeed, unknown>,
-): string[] {
-  const optionValues = new Set<string>();
-
-  column.getFacetedUniqueValues().forEach((_count, value) => {
-    optionValues.add(formatOfferValue(value));
-  });
-
-  return Array.from(optionValues).sort((valueA, valueB) =>
-    valueA.localeCompare(valueB, undefined, {
-      numeric: true,
-      sensitivity: "base",
-    }),
-  );
-}
 
 interface OfferTableProps {
   table: Table<CreditCardOfferSeed>;
@@ -114,55 +94,6 @@ export function OfferTable({
                           </span>
                         </Button>
                       )}
-                    </TableHead>
-                  );
-                })}
-              </TableRow>
-            ))}
-            {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={`${headerGroup.id}-filters`}>
-                {headerGroup.headers.map((header) => {
-                  const filterOptions = getColumnFilterOptions(header.column);
-                  const filterValue =
-                    (header.column.getFilterValue() as string | undefined) ??
-                    ALL_FILTER_VALUE;
-
-                  return (
-                    <TableHead
-                      key={`${header.id}-filter`}
-                      scope="col"
-                      className="p-1"
-                    >
-                      {header.column.getCanFilter() ? (
-                        <Select
-                          value={filterValue}
-                          onValueChange={(value) =>
-                            header.column.setFilterValue(
-                              value === ALL_FILTER_VALUE ? undefined : value,
-                            )
-                          }
-                        >
-                          <SelectTrigger
-                            size="sm"
-                            aria-label={`Filter ${String(
-                              header.column.columnDef.header,
-                            )}`}
-                            className="h-7 min-w-32 max-w-64 text-xs"
-                          >
-                            <SelectValue placeholder="Filter" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value={ALL_FILTER_VALUE}>
-                              All
-                            </SelectItem>
-                            {filterOptions.map((option) => (
-                              <SelectItem key={option} value={option}>
-                                {option}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      ) : null}
                     </TableHead>
                   );
                 })}

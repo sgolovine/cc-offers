@@ -7,6 +7,7 @@ import { LoaderCircle } from "lucide-react";
 
 export function Home() {
   const {
+    datasetLastUpdated,
     globalFilter,
     onOfferKeyDown,
     onOpenOffer,
@@ -24,6 +25,7 @@ export function Home() {
   return (
     <main className="mx-auto flex w-full max-w-[1600px] flex-col gap-4 px-4 py-4 sm:px-6">
       <OfferPageHeader
+        datasetLastUpdated={datasetLastUpdated}
         visibleOffers={visibleOffers}
         totalOffers={totalOffers}
       />

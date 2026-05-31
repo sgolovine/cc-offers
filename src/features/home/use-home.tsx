@@ -15,6 +15,7 @@ import { useMemo, useState, type KeyboardEvent } from "react";
 
 import {
   CREDIT_CARD_OFFER_FIELDS,
+  type CreditCardOfferFieldKey,
   formatTableOfferValue,
 } from "../../data/credit-card-offer-fields";
 import type { CreditCardOfferSeed } from "../../data/credit-card-offers.seed";
@@ -26,6 +27,44 @@ import {
   openOffer,
   offerValueSort,
 } from "../../util/offer-table";
+
+const HIDDEN_TABLE_FIELD_KEYS = new Set<CreditCardOfferFieldKey>([
+  "retrieved",
+  "raw_json",
+  "created_at",
+  "updated_at",
+]);
+
+function formatDatasetLastUpdated(
+  offers: CreditCardOfferSeed[] | undefined,
+): string | null {
+  if (!offers?.length) {
+    return null;
+  }
+
+  const latestTimestamp = offers.reduce<number | null>((latest, offer) => {
+    const timestamps = [offer.created_at, offer.updated_at]
+      .map((timestamp) => new Date(timestamp).getTime())
+      .filter(Number.isFinite);
+
+    if (timestamps.length === 0) {
+      return latest;
+    }
+
+    const offerLatest = Math.max(...timestamps);
+
+    return latest === null ? offerLatest : Math.max(latest, offerLatest);
+  }, null);
+
+  if (latestTimestamp === null) {
+    return null;
+  }
+
+  return new Intl.DateTimeFormat(undefined, {
+    dateStyle: "medium",
+    timeStyle: "short",
+  }).format(latestTimestamp);
+}
 
 export function useHome() {
   const navigate = useNavigate({ from: "/" });
@@ -39,7 +78,9 @@ export function useHome() {
 
   const columns = useMemo<ColumnDef<CreditCardOfferSeed>[]>(
     () =>
-      CREDIT_CARD_OFFER_FIELDS.map((field) => ({
+      CREDIT_CARD_OFFER_FIELDS.filter(
+        (field) => !HIDDEN_TABLE_FIELD_KEYS.has(field.key),
+      ).map((field) => ({
         accessorKey: field.key,
         header: field.label,
         cell: (info) => {
@@ -79,6 +120,11 @@ export function useHome() {
         sortingFn: offerValueSort,
       })),
     [],
+  );
+
+  const datasetLastUpdated = useMemo(
+    () => formatDatasetLastUpdated(offersState.data),
+    [offersState.data],
   );
 
   const table = useReactTable({
@@ -126,5 +172,6 @@ export function useHome() {
     onOfferKeyDown,
     visibleOffers: table.getFilteredRowModel().rows.length,
     totalOffers: table.getCoreRowModel().rows.length,
+    datasetLastUpdated,
   };
 }
