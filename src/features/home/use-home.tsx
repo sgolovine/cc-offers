@@ -1,6 +1,8 @@
 import { Link, useNavigate } from "@tanstack/react-router";
 import {
   getCoreRowModel,
+  getFacetedRowModel,
+  getFacetedUniqueValues,
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
@@ -18,7 +20,7 @@ import {
 import type { CreditCardOfferSeed } from "../../data/credit-card-offers.seed";
 import { useDexieQuery } from "../../hooks/use-dexie-query";
 import {
-  fuzzyColumnFilter,
+  exactFormattedColumnFilter,
   fuzzyGlobalFilter,
   handleOfferKeyDown,
   openOffer,
@@ -31,7 +33,9 @@ export function useHome() {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [globalFilter, setGlobalFilter] = useState("");
 
-  const offersState = useDexieQuery(async (db) => db.creditCardOffers.toArray());
+  const offersState = useDexieQuery(async (db) =>
+    db.creditCardOffers.toArray(),
+  );
 
   const columns = useMemo<ColumnDef<CreditCardOfferSeed>[]>(
     () =>
@@ -48,6 +52,7 @@ export function useHome() {
                 to="/offers/$offerId"
                 params={{ offerId: String(info.row.original.id) }}
                 onClick={(event) => event.stopPropagation()}
+                className="text-primary underline-offset-4 hover:underline"
               >
                 {formattedValue}
               </Link>
@@ -61,6 +66,7 @@ export function useHome() {
                 target="_blank"
                 rel="noreferrer"
                 onClick={(event) => event.stopPropagation()}
+                className="text-primary underline-offset-4 hover:underline"
               >
                 {formattedValue}
               </a>
@@ -69,7 +75,7 @@ export function useHome() {
 
           return formattedValue;
         },
-        filterFn: fuzzyColumnFilter,
+        filterFn: exactFormattedColumnFilter,
         sortingFn: offerValueSort,
       })),
     [],
@@ -93,6 +99,8 @@ export function useHome() {
     onGlobalFilterChange: setGlobalFilter,
     onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
+    getFacetedRowModel: getFacetedRowModel(),
+    getFacetedUniqueValues: getFacetedUniqueValues(),
     getFilteredRowModel: getFilteredRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getPaginationRowModel: getPaginationRowModel(),

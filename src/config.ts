@@ -29,14 +29,14 @@ export const socialLinks = [
 export const dataLinks = [
   {
     label: 'Download as XLSX',
-    href: "#"
+    href: "https://github.com/sgolovine/cc-offers/raw/refs/heads/main/data/cc-offers-export.xlsx"
   },
   {
     label: 'Download as CSV',
-    href: "#"
+    href: "https://raw.githubusercontent.com/sgolovine/cc-offers/refs/heads/main/data/cc-offers-export.csv"
   },
   {
     label: "Download SQLite database",
-    href: "#"
+    href: "https://github.com/sgolovine/cc-offers/raw/refs/heads/main/data/cc-offers.sqlite"
   }
 ] satisfies BaseLink[]

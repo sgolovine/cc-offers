@@ -139,6 +139,12 @@ The initial run that generated the data in this repository took around 12 hours.
 - Some fields are intentionally nullable because issuers publish different levels of detail for different cards.
 - There are no affiliate links in this project.
 
+## Contributing
+
+Offer data will be refreshed occasionally, but contributors are welcome to refresh the data on their own as well. Contributions that add new offers, update stale offers, improve exports, refine the app, or add any other features you see fit are welcome.
+
+When refreshing offer data, please verify details against the original issuer or partner source and update the generated app data and public exports when they are affected.
+
 ## License
 
 This project is released under the [MIT License](LICENSE).

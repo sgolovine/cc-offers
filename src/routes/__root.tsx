@@ -1,11 +1,7 @@
 /// <reference types="vite/client" />
 
-import {
-  createRootRoute,
-} from "@tanstack/react-router";
+import { createRootRoute } from "@tanstack/react-router";
 
-import compactCss from "../styles/compact.css?url";
-import picoCss from "../styles/pico.min.css?url";
 import tailwindCss from "../styles/tailwind.css?url";
 import { RootComponent } from "./-root-component";
 
@@ -26,8 +22,6 @@ export const Route = createRootRoute({
         type: "image/svg+xml",
       },
       { rel: "stylesheet", href: tailwindCss },
-      { rel: "stylesheet", href: picoCss },
-      { rel: "stylesheet", href: compactCss },
     ],
   }),
   component: RootComponent,

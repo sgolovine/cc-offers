@@ -32,6 +32,20 @@ export const fuzzyColumnFilter: FilterFn<CreditCardOfferSeed> = (
   return fuzzyMatches(search, row.getValue(columnId));
 };
 
+export const exactFormattedColumnFilter: FilterFn<CreditCardOfferSeed> = (
+  row,
+  columnId,
+  filterValue,
+) => {
+  const selectedValue = String(filterValue ?? "").trim();
+
+  if (!selectedValue) {
+    return true;
+  }
+
+  return formatOfferValue(row.getValue(columnId)) === selectedValue;
+};
+
 export const fuzzyGlobalFilter: FilterFn<CreditCardOfferSeed> = (
   row,
   _columnId,

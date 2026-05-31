@@ -1,13 +1,14 @@
 import { Link } from "@tanstack/react-router";
 import type { SimpleIcon } from "simple-icons";
 
+import { Button } from "@/components/ui/button";
 import { socialLinks } from "../config";
 
 function SimpleIcon({ icon }: Readonly<{ icon: SimpleIcon }>) {
   return (
     <svg
       aria-hidden="true"
-      className="site-header-icon"
+      className="size-4 fill-current"
       role="img"
       viewBox="0 0 24 24"
     >
@@ -18,23 +19,26 @@ function SimpleIcon({ icon }: Readonly<{ icon: SimpleIcon }>) {
 
 export function HeaderActions() {
   return (
-    <nav className="header-actions" aria-label="Primary">
-      <ul>
+    <nav aria-label="Primary">
+      <ul className="flex items-center gap-1">
         <li>
-          <Link to="/about">ABOUT</Link>
+          <Button asChild variant="ghost" size="sm">
+            <Link to="/about">About</Link>
+          </Button>
         </li>
         {socialLinks.map((link) => (
           <li key={link.label}>
-            <a
-              aria-label={link.label}
-              className="header-action-icon-link"
-              href={link.href}
-              rel="noreferrer"
-              target="_blank"
-              title={link.label}
-            >
-              <SimpleIcon icon={link.icon} />
-            </a>
+            <Button asChild variant="ghost" size="icon-sm">
+              <a
+                aria-label={link.label}
+                href={link.href}
+                rel="noreferrer"
+                target="_blank"
+                title={link.label}
+              >
+                <SimpleIcon icon={link.icon} />
+              </a>
+            </Button>
           </li>
         ))}
       </ul>

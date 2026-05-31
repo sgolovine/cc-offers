@@ -3,6 +3,7 @@ import { OfferPageHeader } from "../../components/offer-page-header";
 import { OfferSearchBar } from "../../components/offer-search-bar";
 import { OfferTable } from "../../components/offer-table";
 import { useHome } from "./use-home";
+import { LoaderCircle } from "lucide-react";
 
 export function Home() {
   const {
@@ -21,18 +22,18 @@ export function Home() {
   }
 
   return (
-    <main className="container-fluid">
+    <main className="mx-auto flex w-full max-w-[1600px] flex-col gap-4 px-4 py-4 sm:px-6">
       <OfferPageHeader
         visibleOffers={visibleOffers}
         totalOffers={totalOffers}
       />
-      <OfferSearchBar
-        globalFilter={globalFilter}
-        onChange={setGlobalFilter}
-      />
+      <OfferSearchBar globalFilter={globalFilter} onChange={setGlobalFilter} />
 
       {offersState.isLoading ? (
-        <p aria-busy="true">Loading offers&hellip;</p>
+        <div className="text-muted-foreground flex items-center gap-2 text-sm">
+          <LoaderCircle className="size-4 animate-spin" aria-hidden="true" />
+          <span>Loading offers&hellip;</span>
+        </div>
       ) : (
         <OfferTable
           table={table}
