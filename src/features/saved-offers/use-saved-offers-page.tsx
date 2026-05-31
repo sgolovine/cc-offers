@@ -4,7 +4,6 @@ import {
   getFacetedRowModel,
   getFacetedUniqueValues,
   getFilteredRowModel,
-  getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
   type CellContext,
@@ -86,6 +85,7 @@ export function useSavedOffersPage() {
         ),
         enableHiding: false,
         enableSorting: false,
+        size: 48,
       },
       ...CREDIT_CARD_OFFER_FIELDS.filter(
         (field) => !HIDDEN_TABLE_FIELD_KEYS.has(field.key),
@@ -126,6 +126,12 @@ export function useSavedOffersPage() {
           return formattedValue;
         },
         filterFn: exactFormattedColumnFilter,
+        size:
+          field.key === "card_offer"
+            ? 260
+            : field.key === "source_url" || field.key === "notes"
+              ? 320
+              : 160,
         sortingFn: offerValueSort,
       })),
     ],
@@ -141,11 +147,6 @@ export function useSavedOffersPage() {
       columnVisibility,
       globalFilter: deferredGlobalFilter,
     },
-    initialState: {
-      pagination: {
-        pageSize: 25,
-      },
-    },
     globalFilterFn: fuzzyGlobalFilter,
     onColumnFiltersChange: setColumnFilters,
     onColumnVisibilityChange: setColumnVisibility,
@@ -156,7 +157,6 @@ export function useSavedOffersPage() {
     getFacetedUniqueValues: getFacetedUniqueValues(),
     getFilteredRowModel: getFilteredRowModel(),
     getSortedRowModel: getSortedRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
   });
 
   const onOpenOffer = (offerId: number) => {

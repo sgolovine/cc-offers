@@ -33,6 +33,11 @@ export function SavedOffers() {
         totalOffers={totalOffers}
       />
 
+      <p className="max-w-3xl text-sm leading-6 text-muted-foreground">
+        Saved offers are stored only on this computer in your browser&apos;s
+        local storage.
+      </p>
+
       <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
         <OfferSearchBar
           globalFilter={globalFilter}

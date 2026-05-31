@@ -4,6 +4,7 @@ import type { SimpleIcon } from "simple-icons";
 
 import { Button } from "@/components/ui/button";
 import { socialLinks } from "../config";
+import { ThemeToggle } from "./theme-toggle";
 
 export function SimpleIcon({ icon }: Readonly<{ icon: SimpleIcon }>) {
   return (
@@ -39,6 +40,9 @@ export function HeaderActions() {
           <Button asChild variant="ghost" size="sm">
             <Link to="/about">About</Link>
           </Button>
+        </li>
+        <li>
+          <ThemeToggle />
         </li>
         {socialLinks.map((link) => (
           <li key={link.label}>
