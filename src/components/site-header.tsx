@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import type { SimpleIcon } from "simple-icons";
 
-import { socialLinks } from "../../config";
+import { socialLinks } from "../config";
 
 function SimpleIcon({ icon }: Readonly<{ icon: SimpleIcon }>) {
   return (
@@ -21,7 +21,7 @@ export function HeaderActions() {
     <nav className="header-actions" aria-label="Primary">
       <ul>
         <li>
-          <Link to="/about">about</Link>
+          <Link to="/about">ABOUT</Link>
         </li>
         {socialLinks.map((link) => (
           <li key={link.label}>

@@ -1,11 +1,17 @@
 import { siGithub, siX } from "simple-icons";
 import type { SimpleIcon } from "simple-icons";
 
-interface SocialLink {
+
+interface BaseLink {
   label: string;
   href: string;
+
+}
+
+interface SocialLink extends BaseLink {
   icon: SimpleIcon;
 }
+
 
 export const socialLinks = [
   {
@@ -19,3 +25,18 @@ export const socialLinks = [
     icon: siX,
   },
 ] satisfies SocialLink[];
+
+export const dataLinks = [
+  {
+    label: 'Download as XLSX',
+    href: "#"
+  },
+  {
+    label: 'Download as CSV',
+    href: "#"
+  },
+  {
+    label: "Download SQLite database",
+    href: "#"
+  }
+] satisfies BaseLink[]

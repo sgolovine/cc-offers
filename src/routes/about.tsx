@@ -1,8 +1,12 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
 
+import { dataLinks, socialLinks } from "../config";
+
 export const Route = createFileRoute("/about")({
   component: About,
 });
+
+const githubLink = socialLinks.find((link) => link.label === "GitHub");
 
 function About() {
   return (
@@ -21,10 +25,16 @@ function About() {
       </p>
 
       <ul>
-        <li><a href="#">Download SQLite Database</a></li>
-        <li><a href="#">Download as XLSX</a></li>
-        <li><a href="#">Download as CSV</a></li>
-        <li><a href="#">View Project on Github</a></li>
+        {dataLinks.map((link) => (
+          <li key={link.label}>
+            <a href={link.href}>{link.label}</a>
+          </li>
+        ))}
+        {githubLink ? (
+          <li>
+            <a href={githubLink.href}>View Project on {githubLink.label}</a>
+          </li>
+        ) : null}
       </ul>
 
       
