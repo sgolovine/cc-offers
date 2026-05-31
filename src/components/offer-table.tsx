@@ -1,5 +1,6 @@
 import type { KeyboardEvent } from "react";
 import { flexRender, type Table } from "@tanstack/react-table";
+import { ArrowDown, ArrowUp, ChevronsUpDown } from "lucide-react";
 
 import type { CreditCardOfferSeed } from "../data/credit-card-offers.seed";
 
@@ -20,27 +21,59 @@ export function OfferTable({ table, onOpenOffer, onOfferKeyDown }: OfferTablePro
           <thead>
             {table.getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id}>
-                {headerGroup.headers.map((header) => (
-                  <th key={header.id} scope="col">
-                    {header.isPlaceholder ? null : (
-                      <button
-                        type="button"
-                        className="secondary outline"
-                        onClick={header.column.getToggleSortingHandler()}
-                        disabled={!header.column.getCanSort()}
-                      >
-                        {flexRender(
-                          header.column.columnDef.header,
-                          header.getContext(),
-                        )}
-                        {header.column.getIsSorted() === "asc" ? " asc" : null}
-                        {header.column.getIsSorted() === "desc"
-                          ? " desc"
-                          : null}
-                      </button>
-                    )}
-                  </th>
-                ))}
+                {headerGroup.headers.map((header) => {
+                  const sortDirection = header.column.getIsSorted();
+
+                  return (
+                    <th key={header.id} scope="col">
+                      {header.isPlaceholder ? null : (
+                        <button
+                          type="button"
+                          className="secondary outline sort-button"
+                          onClick={header.column.getToggleSortingHandler()}
+                          disabled={!header.column.getCanSort()}
+                        >
+                          <span>
+                            {flexRender(
+                              header.column.columnDef.header,
+                              header.getContext(),
+                            )}
+                          </span>
+                          <span className="sort-icon-slot">
+                            {sortDirection === "asc" ? (
+                              <>
+                                <ArrowUp
+                                  className="sort-icon"
+                                  aria-hidden="true"
+                                />
+                                <span className="visually-hidden">
+                                  sorted ascending
+                                </span>
+                              </>
+                            ) : null}
+                            {sortDirection === "desc" ? (
+                              <>
+                                <ArrowDown
+                                  className="sort-icon"
+                                  aria-hidden="true"
+                                />
+                                <span className="visually-hidden">
+                                  sorted descending
+                                </span>
+                              </>
+                            ) : null}
+                            {sortDirection === false ? (
+                              <ChevronsUpDown
+                                className="sort-icon sort-icon-placeholder"
+                                aria-hidden="true"
+                              />
+                            ) : null}
+                          </span>
+                        </button>
+                      )}
+                    </th>
+                  );
+                })}
               </tr>
             ))}
             {table.getHeaderGroups().map((headerGroup) => (
@@ -139,4 +172,3 @@ export function OfferTable({ table, onOpenOffer, onOfferKeyDown }: OfferTablePro
     </>
   );
 }
-

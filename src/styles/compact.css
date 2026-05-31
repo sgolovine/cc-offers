@@ -12,6 +12,46 @@ main.container-fluid {
   padding-block: 0.75rem;
 }
 
+.offer-page-header {
+  align-items: center;
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+}
+
+.offer-page-header p {
+  margin-bottom: 0;
+}
+
+.header-actions ul {
+  align-items: center;
+  display: flex;
+  gap: 0.15rem;
+}
+
+.header-action-icon-link {
+  align-items: center;
+  color: var(--pico-muted-color);
+  display: inline-flex;
+  height: 1.8rem;
+  justify-content: center;
+  width: 1.8rem;
+}
+
+.header-action-icon-link:hover {
+  color: var(--pico-primary-hover);
+}
+
+.site-header-icon {
+  fill: currentColor;
+  height: 1rem;
+  width: 1rem;
+}
+
+.about-page {
+  max-width: 48rem;
+}
+
 h1 {
   --pico-font-size: 1.5rem;
   margin-bottom: 0.25rem;
@@ -45,6 +85,42 @@ thead input[type="search"] {
 thead button {
   padding: 0.25rem 0.35rem;
   text-align: left;
+}
+
+thead button.sort-button {
+  align-items: center;
+  display: inline-flex;
+  gap: 0.25rem;
+  justify-content: space-between;
+}
+
+.sort-icon {
+  flex: 0 0 auto;
+  height: 0.85rem;
+  width: 0.85rem;
+}
+
+.sort-icon-slot {
+  align-items: center;
+  display: inline-flex;
+  flex: 0 0 0.85rem;
+  height: 0.85rem;
+  justify-content: center;
+  width: 0.85rem;
+}
+
+.sort-icon-placeholder {
+  visibility: hidden;
+}
+
+.visually-hidden {
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
 }
 
 thead input[type="search"] {
